@@ -159,7 +159,7 @@ public class MultiImagePickerPlugin implements
         }
 
         @Override
-        protected Void doInBackground(String... strings) {
+        protected ByteBuffer doInBackground(String... strings) {
             final Uri uri = Uri.parse(this.identifier);
             byte[] byteArray = null;
 
@@ -193,7 +193,7 @@ public class MultiImagePickerPlugin implements
         }
 
         @Override
-        protected ByteBuffer onPostExecute(ByteBuffer buffer) {
+        protected void onPostExecute(ByteBuffer buffer) {
             super.onPostExecute(buffer);
             if (buffer != null) {
                 this.messenger.send("multi_image_picker/image/" + this.identifier + ".thumb", buffer);
