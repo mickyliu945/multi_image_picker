@@ -140,7 +140,7 @@ public class MultiImagePickerPlugin implements
 
     }
 
-    private static class GetThumbnailTask extends AsyncTask<String, Void, Void> {
+    private static class GetThumbnailTask extends AsyncTask<String, Void, ByteBuffer> {
         private WeakReference<Activity> activityReference;
         BinaryMessenger messenger;
         final String identifier;
@@ -187,10 +187,18 @@ public class MultiImagePickerPlugin implements
             if (byteArray != null) {
                 buffer = ByteBuffer.allocateDirect(byteArray.length);
                 buffer.put(byteArray);
-                this.messenger.send("multi_image_picker/image/" + this.identifier + ".thumb", buffer);
-                buffer.clear();
+                return buffer;
             }
             return null;
+        }
+
+        @Override
+        protected ByteBuffer onPostExecute(ByteBuffer buffer) {
+            super.onPostExecute(buffer);
+            if (buffer != null) {
+                this.messenger.send("multi_image_picker/image/" + this.identifier + ".original", buffer);
+                buffer.clear();
+            }
         }
     }
 
