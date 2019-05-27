@@ -196,7 +196,7 @@ public class MultiImagePickerPlugin implements
         protected ByteBuffer onPostExecute(ByteBuffer buffer) {
             super.onPostExecute(buffer);
             if (buffer != null) {
-                this.messenger.send("multi_image_picker/image/" + this.identifier + ".original", buffer);
+                this.messenger.send("multi_image_picker/image/" + this.identifier + ".thumb", buffer);
                 buffer.clear();
             }
         }
